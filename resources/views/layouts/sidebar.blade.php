@@ -31,12 +31,12 @@
             <i class="fas fa-users"></i>
             <span>{{ __('User') }}</span></a>
     </li>
-{{-- 
+
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('roles.index') }}">
             <i class="fas fa-user-shield"></i>
             <span>{{ __('Role') }}</span></a>
-    </li> --}}
+    </li>
 
      <!-- Divider -->
      <hr class="sidebar-divider">

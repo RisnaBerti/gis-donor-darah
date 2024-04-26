@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\{
+    HomeController,
+    UserController,
+    ProfileController,
+    RolesController
+};
 
 
 Route::get('/', function () {
@@ -25,5 +28,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('roles', [RolesController::class, 'index'])->name('roles.index');
+    Route::get('roles/create', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('roles/store', [RolesController::class, 'store'])->name('roles.store');
+    Route::get('roles/{role}', [RolesController::class, 'show'])->name('roles.show');
+    Route::get('roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::put('roles/{role}', [RolesController::class, 'update'])->name('roles.update');
+    Route::delete('roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
+
 });
 
