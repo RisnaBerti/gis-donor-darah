@@ -27,15 +27,22 @@ class RolesController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:roles',
-            'permissions' => 'required|array',
+            'permissions' => 'nullable|array', // Mengubah menjadi nullable agar tidak wajib
             'permissions.*' => 'exists:permissions,id',
         ]);
-
-        $role = Role::create(['name' => $request->name]);
-        $role->syncPermissions($request->permissions);
-
+    
+        $roleData = ['name' => $request->name];
+        
+        // Cek apakah permissions disertakan dalam request
+        if ($request->has('permissions')) {
+            $roleData['permissions'] = $request->permissions;
+        }
+    
+        $role = Role::create($roleData);
+    
         return redirect()->route('roles.index')->with('success', __('The role was created successfully.'));
     }
+    
 
     public function show($id)
     {
