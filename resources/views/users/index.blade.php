@@ -5,6 +5,24 @@
         <div class="card-header">
             <h5 class="mb-0">User Management</h5>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger border-left-danger" role="alert">
+                <ul class="pl-4 my-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="card-body">
             <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Add User</a>
 
@@ -23,7 +41,11 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>{{ $user->nik }}</td>
-                                <td>{{ $user->profile->nama }}</td>
+                                <td>
+                                    @if ($user->profile)
+                                        {{ $user->profile->nama }}
+                                    @endif
+                                </td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @foreach($user->roles as $role)

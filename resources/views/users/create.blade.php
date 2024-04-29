@@ -5,18 +5,36 @@
         <div class="card-header">
             <h5 class="mb-0">Add User</h5>
         </div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('users.store') }}">
-                @csrf
+        @if (session('success'))
+        <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger border-left-danger" role="alert">
+                <ul class="pl-4 my-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <div class="card-body">
+            <form action="{{ route('users.store') }}" method="POST">
+                @csrf
+                
                 <!-- Create user information -->
                 <div class="form-group">
                     <label for="nik">NIK</label>
                     <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik') }}">
                 </div>
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                    <label for="name">Nama</label>
+                    <input type="text" class="form-control" id="name" name="nama" value="{{ old('nama') }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -29,6 +47,7 @@
                 <div class="form-group">
                     <label for="role">Role</label>
                     <select class="form-control" id="role" name="role">
+                        <option value="" selected disabled>-- Select role --</option>
                         @foreach($roles as $role)
                             <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
