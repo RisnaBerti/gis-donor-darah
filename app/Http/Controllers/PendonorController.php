@@ -8,18 +8,18 @@ use App\Models\User;
 use App\Models\Profile;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class PendonorController extends Controller
 {
     public function index()
     {
-        $users = User::with('profile')->get();
-        return view('users.index', compact('users'));
+        $pendonors = User::role('pendonor')->with('profile')->get();
+        return view('pendonors.index', compact('pendonors'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('pendonors.create', compact('roles'));
     }
     
     public function store(Request $request)
@@ -45,21 +45,21 @@ class UserController extends Controller
         ]);
 
         // Assign role to user
-        $role = Role::find($request->role);
+        $role = 'pendonor';
         $user->assignRole($role);
 
-        return redirect()->route('users.index')->withSuccess('User created successfully.');
+        return redirect()->route('pendonors.index')->withSuccess('Pendonor berhasil dibuat.');
     }
 
     public function show(User $user)
-    {   
-        return view('users.show', compact('user'));
+    {
+        return view('pendonors.show', compact('user'));
     }
 
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+        return view('pendonors.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
@@ -118,12 +118,12 @@ class UserController extends Controller
         ]);
 
     
-        return redirect()->route('users.index')->withSuccess('User updated successfully.');
+        return redirect()->route('pendonors.index')->withSuccess('User updated successfully.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->withSuccess('User deleted successfully.');
+        return redirect()->route('pendonors.index')->withSuccess('User deleted successfully.');
     }
 }

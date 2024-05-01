@@ -18,6 +18,18 @@
             <span>{{ __('Dashboard') }}</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('pendonors.index') }}">
+            <i class="fas fa-user-md"></i>
+            <span>{{ __('Pendonor') }}</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('pencaris.index') }}">
+            <i class="fas fa-user-injured"></i>
+            <span>{{ __('Pencari Donor') }}</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

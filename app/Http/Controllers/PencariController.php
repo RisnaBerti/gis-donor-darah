@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -8,18 +7,18 @@ use App\Models\User;
 use App\Models\Profile;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class PencariController extends Controller
 {
     public function index()
     {
-        $users = User::with('profile')->get();
-        return view('users.index', compact('users'));
+        $pencaris = User::role('pencaridonor')->with('profile')->get();
+        return view('pencaris.index', compact('pencaris'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('pencaris.create', compact('roles'));
     }
     
     public function store(Request $request)
@@ -45,21 +44,21 @@ class UserController extends Controller
         ]);
 
         // Assign role to user
-        $role = Role::find($request->role);
+        $role = 'pencaridonor';
         $user->assignRole($role);
 
-        return redirect()->route('users.index')->withSuccess('User created successfully.');
+        return redirect()->route('pencaris.index')->withSuccess('Pencari donor berhasil dibuat.');
     }
 
     public function show(User $user)
-    {   
-        return view('users.show', compact('user'));
+    {  
+        return view('pencaris.show', compact('user'));
     }
 
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+        return view('pencaris.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)
@@ -118,12 +117,13 @@ class UserController extends Controller
         ]);
 
     
-        return redirect()->route('users.index')->withSuccess('User updated successfully.');
+        return redirect()->route('pencaris.index')->withSuccess('User updated successfully.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->withSuccess('User deleted successfully.');
+        return redirect()->route('pencaris.index')->withSuccess('User deleted successfully.');
     }
+
 }

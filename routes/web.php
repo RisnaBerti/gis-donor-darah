@@ -8,6 +8,8 @@ use App\Http\Controllers\{
     ProfileController,
     RolesController,
     PanelController,
+    PendonorController,
+    PencariController,
 };
 
 
@@ -29,13 +31,23 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('users', UserController::class);
 
-        // Route::get('users', [UserController::class, 'index'])->name('users.index');
-        // Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-        // Route::post('users/store', [UserController::class, 'store'])->name('users.store');
-        // Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-        // Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-        // Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-        // Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+        // Route Pendonor 
+        Route::get('pendonors', [PendonorController::class, 'index'])->name('pendonors.index');
+        Route::get('pendonors/create', [PendonorController::class, 'create'])->name('pendonors.create');
+        Route::post('pendonors/store', [PendonorController::class, 'store'])->name('pendonors.store');
+        Route::get('pendonors/{user}', [PendonorController::class, 'show'])->name('pendonors.show');
+        Route::get('pendonors/{user}/edit', [PendonorController::class, 'edit'])->name('pendonors.edit');
+        Route::put('pendonors/{user}', [PendonorController::class, 'update'])->name('pendonors.update');
+        Route::delete('pendonors/{user}', [PendonorController::class, 'destroy'])->name('pendonors.destroy');
+
+        // Route Pencari Donor
+        Route::get('pencaris', [PencariController::class, 'index'])->name('pencaris.index');
+        Route::get('pencaris/create', [PencariController::class, 'create'])->name('pencaris.create');
+        Route::post('pencaris/store', [PencariController::class, 'store'])->name('pencaris.store');
+        Route::get('pencaris/{user}', [PencariController::class, 'show'])->name('pencaris.show');
+        Route::get('pencaris/{user}/edit', [PencariController::class, 'edit'])->name('pencaris.edit');
+        Route::put('pencaris/{user}', [PencariController::class, 'update'])->name('pencaris.update');
+        Route::delete('pencaris/{user}', [PencariController::class, 'destroy'])->name('pencaris.destroy');
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
