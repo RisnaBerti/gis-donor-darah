@@ -43,17 +43,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
-                </div>
-                <div class="form-group">
-                    <label for="role">Role</label>
-                    <select class="form-control" id="role" name="role">
-                        <option value="" selected disabled>-- Select role --</option>
-                        @foreach($roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
+                </div>           
                 <button type="submit" class="btn btn-primary">Create</button>
                 <a href="{{ route('pendonors.index') }}" class="btn btn-secondary">Cancel</a>
             </form>

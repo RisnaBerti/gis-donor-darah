@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
         <div class="rotate-n-15">
             <img src="{{ asset('img/blood-donor.png') }}" class="sidebar-brand-icon" alt="">
         </div>
@@ -28,6 +28,12 @@
         <a class="nav-link" href="{{ route('pencaris.index') }}">
             <i class="fas fa-user-injured"></i>
             <span>{{ __('Pencari Donor') }}</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('stokdarah.index') }}">
+            <i class="fas fa-syringe"></i>
+            <span>{{ __('Stock Darah') }}</span></a>
     </li>
 
     <!-- Divider -->

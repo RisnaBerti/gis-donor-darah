@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     PanelController,
     PendonorController,
     PencariController,
+    StokDarahController,
 };
 
 
@@ -48,6 +49,16 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('pencaris/{user}/edit', [PencariController::class, 'edit'])->name('pencaris.edit');
         Route::put('pencaris/{user}', [PencariController::class, 'update'])->name('pencaris.update');
         Route::delete('pencaris/{user}', [PencariController::class, 'destroy'])->name('pencaris.destroy');
+
+        // Route Stok Darah
+        Route::get('stokdarahs', [StokDarahController::class, 'index'])->name('stokdarah.index');
+        Route::get('stokdarahs/create', [StokDarahController::class, 'create'])->name('stokdarah.create');
+        Route::post('stokdarahs/store', [StokDarahController::class, 'store'])->name('stokdarah.store');
+        Route::get('stokdarahs/{stokdarah}', [StokDarahController::class, 'show'])->name('stokdarah.show');
+        Route::get('stokdarahs/{stokdarah}/edit', [StokDarahController::class, 'edit'])->name('stokdarah.edit');
+        Route::put('stokdarahs/{stokdarah}', [StokDarahController::class, 'update'])->name('stokdarah.update');
+        Route::delete('stokdarahs/{stokdarah}', [StokDarahController::class, 'destroy'])->name('stokdarah.destroy');
+        Route::put('stokdarahs/{stokdarah}', [StokDarahController::class, 'updateStok'])->name('stokdarah.updatestok');
 
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
