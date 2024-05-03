@@ -40,6 +40,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('pendonors/{user}/edit', [PendonorController::class, 'edit'])->name('pendonors.edit');
         Route::put('pendonors/{user}', [PendonorController::class, 'update'])->name('pendonors.update');
         Route::delete('pendonors/{user}', [PendonorController::class, 'destroy'])->name('pendonors.destroy');
+        Route::get('pendonors/{user}/riwayat', [PendonorController::class, 'riwayat'])->name('pendonors.riwayat');
+        Route::post('pendonors/addriwayat', [PendonorController::class, 'storeRiwayat'])->name('pendonors.addRiwayat');
 
         // Route Pencari Donor
         Route::get('pencaris', [PencariController::class, 'index'])->name('pencaris.index');

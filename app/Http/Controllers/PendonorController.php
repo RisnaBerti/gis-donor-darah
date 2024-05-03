@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\RiwayatDonor;
 use Spatie\Permission\Models\Role;
 
 class PendonorController extends Controller
@@ -119,6 +120,34 @@ class PendonorController extends Controller
 
     
         return redirect()->route('pendonors.index')->withSuccess('User updated successfully.');
+    }
+
+    public function riwayat(User $user)
+    {   
+        $riwayat = RiwayatDonor::with('user')->where('user_id', $user->id)->get();
+        return view('pendonors.riwayat', compact('user', 'riwayat'));
+    }
+
+    public function storeRiwayat(Request $request)
+    {
+        $request->validate([
+            'tanggal_donor' => 'required|date',
+            'berat_badan' => 'required|numeric|min:0',
+            'keterangan' => 'nullable|string|max:255',
+            'donor_ke' => 'required|numeric|min:0',
+            'user_id' => 'required|exists:users,id', // Pastikan user_id sesuai dengan ID yang ada dalam tabel users
+        ]);
+
+        // Create RiwayatDonor
+        RiwayatDonor::create([
+            'user_id' => $request->user_id,
+            'tanggal_donor' => $request->tanggal_donor,
+            'berat_badan' => $request->berat_badan,
+            'keterangan' => $request->keterangan,
+            'donor_ke' =>  $request->donor_ke, 
+        ]);
+
+        return redirect()->back()->withSuccess('Riwayat Donor berhasil ditambahkan.');
     }
 
     public function destroy(User $user)

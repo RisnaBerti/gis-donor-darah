@@ -34,6 +34,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Golongan Darah</th>
+                            <th>Riwayat Donor</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -52,6 +53,7 @@
                                         {{ $user->profile->golongan_darah }}
                                     @endif
                                 </td>
+                                <td><a href="{{ route('pendonors.riwayat', $user->id) }}" class="btn btn-outline btn-success btn-sm">Riwayat Lengkap</a></td>
                                 <td>
                                     <a href="{{ route('pendonors.show', $user->id) }}" class="btn btn-info btn-sm">View</a>
                                     <a href="{{ route('pendonors.edit', $user->id) }}" class="btn btn-primary btn-sm">Edit</a>
