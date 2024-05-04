@@ -24,7 +24,7 @@
             </div>
         @endif
         <div class="card-body">
-            <a href="{{ route('pendonors.create') }}" class="btn btn-primary mb-3">Add User</a>
+            <a href="{{ route('pendonors.create') }}" class="btn btn-primary mb-3">Tambah Pendonor</a>
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -56,7 +56,7 @@
                                 <td><a href="{{ route('pendonors.riwayat', $user->id) }}" class="btn btn-outline btn-success btn-sm">Riwayat Lengkap</a></td>
                                 <td>
                                     <a href="{{ route('pendonors.show', $user->id) }}" class="btn btn-info btn-sm">View</a>
-                                    <a href="{{ route('pendonors.edit', $user->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="{{ route('pendonors.edit', $user->id) }}" class="btn btn-primary btn-sm">Edit Profile</a>
                                     <form action="{{ route('pendonors.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

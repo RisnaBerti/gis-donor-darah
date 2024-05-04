@@ -23,6 +23,6 @@ class JenisDarah extends Model
 
     public function stokDarah()
     {
-        return $this->hasMany(StokDarah::class, 'jenis_id');
+        return $this->hasOne(StokDarah::class, 'jenis_id');
     }
 }
