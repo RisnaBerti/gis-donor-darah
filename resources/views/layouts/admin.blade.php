@@ -1,8 +1,16 @@
 @include('layouts.header')
 <!-- Page Wrapper -->
 <div id="wrapper">
+    
     <!-- Sidebar -->
-    @include('layouts.sidebar')
+    @if(auth()->check() && auth()->user()->hasRole('admin'))
+        @include('layouts.sidebar')
+    @else
+        @include('layouts.userbar')
+    @endif
+    <!-- End of Sidebar -->
+
+
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->

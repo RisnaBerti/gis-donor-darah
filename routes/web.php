@@ -6,12 +6,16 @@ use App\Http\Controllers\{
     HomeController,
     UserController,
     ProfileController,
-    RolesController,
-    PanelController,
+    RolesController,    
     PendonorController,
     PencariController,
     StokDarahController,
 };
+
+use App\Http\Controllers\UserPanel\{
+    PanelController,
+};
+
 
 
 Route::get('/', function () {
@@ -76,5 +80,6 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     // User Routes
     Route::get('/home', [PanelController::class, 'index'])->name('home');
+    Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
 });
 
