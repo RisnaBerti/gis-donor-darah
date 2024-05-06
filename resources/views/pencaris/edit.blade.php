@@ -39,13 +39,14 @@
                     <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
                 </div>
 
+                <div class="form-group">
+                    <label for="nama">Nama</label>
+                    <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $user->profile->nama ?? '') }}">
+                </div>
+                
                 <!-- Edit profile information -->        
                 <div class="row">
-                  <div class="col-md-6 mb-4">
-                    <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $user->profile->nama ?? '') }}">
-                    </div>
+                  <div class="col-md-6 mb-4">                    
                     <div class="form-group">
                         <label for="tempatlahir">Tempat Lahir</label>
                         <input type="text" class="form-control" id="tempatlahir" name="tempatlahir" value="{{ old('tempatlahir', $user->profile->tempatlahir ?? '') }}">
@@ -113,18 +114,17 @@
                     <div class="form-group">
                         <label class="form-control-label" for="kodepos">Kode Pos</label>
                         <input type="text" id="kodepos" class="form-control" name="kodepos" placeholder="Kode Pos" value="{{ old('kodepos', $user->profile->kodepos ?? '') }}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-control-label" for="lat">Latitude</label>
-                        <input type="text" id="lat" class="form-control" name="lat" placeholder="Latitude" value="{{ old('lat', $user->profile->lat ?? '') }}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-control-label" for="long">Longitude</label>
-                        <input type="text" id="long" class="form-control" name="long" placeholder="Longitude" value="{{ old('long', $user->profile->long ?? '') }}">
-                    </div>                    
+                    </div>       
                   </div>
+
+                  <div class="col-md-12 mb-3">
+
+                    @include('form.maps')
+
+                    <input type="hidden" id="hidden-lat" name="lat" value="{{ old('lat', $user->profile->lat ?? '') }}">
+                    <input type="hidden" id="hidden-long" name="long" value="{{ old('long', $user->profile->long ?? '') }}">
+                  </div>
+                  
                 </div>
              
                 <button type="submit" class="btn btn-primary">Update</button>
