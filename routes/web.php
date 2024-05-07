@@ -81,5 +81,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     // User Routes
     Route::get('/home', [PanelController::class, 'index'])->name('home');
     Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
+    Route::get('/profile', [PanelController::class, 'profile'])->name('panel.profile');
 });
 

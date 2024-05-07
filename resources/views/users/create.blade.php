@@ -30,7 +30,7 @@
                 <!-- Create user information -->
                 <div class="form-group">
                     <label for="nik">NIK</label>
-                    <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik') }}">
+                    <input type="number" class="form-control" id="nik" name="nik" value="{{ old('nik') }}">
                 </div>
                 <div class="form-group">
                     <label for="name">Nama</label>
@@ -39,6 +39,10 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">No. Handphone</label>
+                    <input type="number" class="form-control" id="mobile" name="mobile" value="{{ old('mobile') }}">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>

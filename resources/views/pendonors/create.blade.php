@@ -41,6 +41,10 @@
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="form-group">
+                    <label for="mobile">No. Handphone</label>
+                    <input type="number" class="form-control" id="mobile" name="mobile" value="{{ old('mobile') }}">
+                </div>
+                <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
                 </div>           

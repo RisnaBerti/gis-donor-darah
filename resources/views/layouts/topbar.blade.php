@@ -51,7 +51,7 @@
                     @if(Auth::user()->hasRole('admin'))
                         Admin
                     @else
-                        User
+                        {{ Auth::user()->profile->nama }}
                     @endif
                 </span>
                 <figure class="img-profile rounded-circle avatar font-weight-bold" data-initial="{{ Auth::user()->email }}"></figure>
@@ -59,7 +59,13 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                
-                <a class="dropdown-item" href="{{ route('profile') }}">
+                <a class="dropdown-item" href="
+                    @if(Auth::user()->hasRole('admin'))
+                        {{ route('profile') }}
+                    @else
+                        {{ route('panel.profile') }}
+                    @endif
+                   ">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     {{ __('Profile') }}
                 </a>               

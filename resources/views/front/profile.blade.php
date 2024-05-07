@@ -1,48 +1,47 @@
 @extends('layouts.admin')
 
 @section('main-content')
+
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Profil') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Profile ') }}</h1>
+
 
     @if (session('success'))
-        <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger border-left-danger" role="alert">
-            <ul class="pl-4 my-2">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    @if (session('status'))
+        <div class="alert alert-success border-left-success" role="alert">
+            {{ session('status') }}
         </div>
     @endif
 
     <div class="row">
-        <div class="col-lg-12 order-lg-1">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Akun Saya</h6>
-                </div>
+        <div class="col-xl-12 col-md-12 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">                
                 <div class="card-body">
                     <form method="POST" action="{{ route('profile.update') }}" autocomplete="off">
                         @csrf
                         @method('PUT')
 
-                        <h6 class="heading-small text-muted mb-4">Informasi Pengguna</h6>
+                        <h6 class="heading-small text-muted mb-4">Informasi Akun</h6>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="pl-lg-4">
                                     <div class="form-group">
                                         <label class="form-control-label" for="nama">Nama<span class="small text-danger">*</span></label>
                                         <input type="text" id="nama" class="form-control" name="nama" placeholder="Nama" value="{{ old('nama', $profile->nama ?? '') }}">
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pl-lg-4">
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="tempatlahir">Tempat Lahir</label>
@@ -135,8 +134,10 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>         
             </div>
         </div>
     </div>
+
+    
 @endsection

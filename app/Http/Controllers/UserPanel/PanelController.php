@@ -9,6 +9,10 @@ use App\Models\Profile;
 use App\Models\StokDarah;
 use App\Models\JenisDarah;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+
 class PanelController extends Controller
 {
     /**
@@ -87,6 +91,15 @@ class PanelController extends Controller
 
         // Mengirimkan data ke view 'front.stock'
         return view('front.stock', compact('stoks'));
+    }
+
+    
+    public function profile()
+    {
+        $user = Auth::user();
+        $profile = $user->profile; // Ambil profil terkait dengan pengguna yang sedang login
+
+        return view('front.profile', compact('profile'));
     }
 
 

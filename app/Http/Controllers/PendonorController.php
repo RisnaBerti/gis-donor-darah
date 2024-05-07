@@ -28,6 +28,7 @@ class PendonorController extends Controller
         $request->validate([
             'nik' => 'required|integer|unique:users',     
             'email' => 'required|string|email|max:255|unique:users',
+            'mobile' => 'required|integer|unique:users', 
             'password' => 'required|string|min:6',
             'nama' => 'required|string|max:255',           
         ]);
@@ -36,6 +37,7 @@ class PendonorController extends Controller
         $user = User::create([
             'nik' => $request->nik,
             'email' => $request->email,
+            'mobile' => $request->mobile,
             'password' => bcrypt($request->password),
         ]);
 
@@ -67,6 +69,7 @@ class PendonorController extends Controller
         $request->validate([
             'nik' => 'required|integer|unique:users,nik,' . $user->id,            
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'mobile' => 'required|integer',
             'password' => 'nullable|string|min:8',
             'nama' => 'required|string|max:255',
             'tempatlahir' => 'nullable|string|max:255',
@@ -88,6 +91,7 @@ class PendonorController extends Controller
         $userData = [
             'nik' => $request->nik,           
             'email' => $request->email,
+            'mobile' => $request->mobile,
         ];
 
         // Update user data

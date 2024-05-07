@@ -27,6 +27,12 @@
      <!-- Divider -->
      <hr class="sidebar-divider">
 
+     <li class="nav-item">
+        <a class="nav-link" href="{{ route('panel.profile') }}">
+            <i class="fas fa-user-cog"></i>
+            <span>{{ __('Profile') }}</span></a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt"></i>

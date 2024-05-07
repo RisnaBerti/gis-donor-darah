@@ -39,6 +39,10 @@
                     <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
+                    <label for="mobile">No. Handphone</label>
+                    <input type="number" class="form-control" id="mobile" name="mobile" value="{{ old('mobile') }}">
+                </div>
+                <div class="form-group">
                     <label for="nama">Nama</label>
                     <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $user->profile->nama ?? '') }}">
                 </div>
