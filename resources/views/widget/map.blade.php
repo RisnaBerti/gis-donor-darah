@@ -37,7 +37,7 @@
                     markers.push(marker);
 
                     const infowindow = new google.maps.InfoWindow({
-                        content: `<b>${markerData.position.lat}, ${markerData.position.lng}</b>`,
+                        content: `<b>${markerData.title}</b>`,
                     });
                     marker.addListener("click", (event) => {
                         if(activeInfoWindow) {

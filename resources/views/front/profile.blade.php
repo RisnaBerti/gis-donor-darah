@@ -30,7 +30,7 @@
                         @method('PUT')
 
                         <h6 class="heading-small text-muted mb-4">Informasi Akun</h6>
-
+                       
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="pl-lg-4">

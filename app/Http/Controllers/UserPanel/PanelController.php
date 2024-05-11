@@ -68,6 +68,7 @@ class PanelController extends Controller
                     
                 ],
                 'icon' => $icon,
+                'title' => $profile->profile->nama,
                 'draggable' => false,
             ];
         }
@@ -99,7 +100,7 @@ class PanelController extends Controller
         $user = Auth::user();
         $profile = $user->profile; // Ambil profil terkait dengan pengguna yang sedang login
 
-        return view('front.profile', compact('profile'));
+        return view('front.profile', compact('user', 'profile'));
     }
 
 

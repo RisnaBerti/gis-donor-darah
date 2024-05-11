@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="mobile">No. Handphone</label>
-                    <input type="number" class="form-control" id="mobile" name="mobile" value="{{ old('mobile') }}">
+                    <input type="number" class="form-control" id="mobile" name="mobile" value="{{ $user->mobile }}">
                 </div>
                 <div class="form-group">
                     <label for="nama">Nama</label>

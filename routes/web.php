@@ -14,6 +14,7 @@ use App\Http\Controllers\{
 
 use App\Http\Controllers\UserPanel\{
     PanelController,
+    OrderController,
 };
 
 
@@ -82,5 +83,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/home', [PanelController::class, 'index'])->name('home');
     Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
     Route::get('/profile', [PanelController::class, 'profile'])->name('panel.profile');
+
+    Route::get('/cari', [OrderController::class, 'index'])->name('cari');
+    Route::get('/cari/donor', [OrderController::class, 'search'])->name('cari.donor');
+
 });
 

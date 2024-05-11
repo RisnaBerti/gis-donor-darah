@@ -69,7 +69,7 @@ class PendonorController extends Controller
         $request->validate([
             'nik' => 'required|integer|unique:users,nik,' . $user->id,            
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'mobile' => 'required|integer',
+            'mobile' => 'required',
             'password' => 'nullable|string|min:8',
             'nama' => 'required|string|max:255',
             'tempatlahir' => 'nullable|string|max:255',

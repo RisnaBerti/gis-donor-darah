@@ -17,6 +17,14 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>{{ __('Home') }}</span></a>
     </li>
+
+        
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('cari') }}">
+            <i class="fas fa-hand-holding-water"></i>
+            <span>{{ __('Cari Donor Darah') }}</span></a>
+    </li>
+
     
     <li class="nav-item">
         <a class="nav-link" href="{{ route('stokdarah') }}">
