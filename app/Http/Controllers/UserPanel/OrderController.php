@@ -33,7 +33,7 @@ class OrderController extends Controller
         $userId = Auth::id();
 
         // Mengambil data order dengan pencari_id yang sesuai dengan ID pengguna yang sedang login
-        $history = Order::where('pencari_id', $userId)->get();
+        $history = Order::with(['pencari', 'pendonor'])->where('pencari_id', $userId)->get();
 
         return view('front.search', compact('history'));
     }
@@ -46,6 +46,9 @@ class OrderController extends Controller
 
         $goldar = $request->input('goldar');
         $jumlah = $request->input('jumlah');
+
+        $latnow = $request->input('lat');
+        $longnow = $request->input('long');
 
         // Lakukan pencarian pendonor berdasarkan golongan darah
         $donors = User::role('pendonor')->with('profile')
@@ -60,7 +63,7 @@ class OrderController extends Controller
 
         // Hitung jarak antara pencari dan setiap pendonor
         foreach ($donors as $donor) {
-            $distance = $this->calculateDistance($pencari->profile->lat, $pencari->profile->long, $donor->profile->lat, $donor->profile->long);
+            $distance = $this->calculateDistance($latnow, $longnow, $donor->profile->lat, $donor->profile->long);
             $graph['Pencari'][$donor->id] = $distance;
             
             // Jika ingin menambahkan informasi jarak dari pendonor ke pencari
@@ -170,6 +173,25 @@ class OrderController extends Controller
         return view('front.order', compact('donors'));
     }
     
+    public function order(Request $request)
+    {
+        // Validasi data yang diterima dari formulir
+        $validatedData = $request->validate([
+            'pencari_id' => 'required|integer',   
+            'goldar' => 'required|string',
+            'jumlah' => 'required|integer',
+            'pendonor_id' => 'required|integer',          
+        ]);
+
+        $validatedData['rhesus'] = 'Positif';
+        $validatedData['status'] = 'Pending';
+        $validatedData['sumber'] = 'Pendonor';
+        
+        $order = Order::create($validatedData);
+
+        // Redirect atau tampilkan pesan sukses
+        return redirect()->route('cari')->with('success', 'Permintaan pencarian pendonor darah berhasil dibuat.');
+    }
 
 
 }

@@ -86,6 +86,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/cari', [OrderController::class, 'index'])->name('cari');
     Route::get('/cari/donor', [OrderController::class, 'search'])->name('cari.donor');
+    Route::post('/request', [OrderController::class, 'order'])->name('store.order');
 
 });
 

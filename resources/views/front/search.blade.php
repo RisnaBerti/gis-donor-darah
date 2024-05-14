@@ -29,7 +29,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Permintaan Donor Darah</h6>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('cari.donor') }}" method="GET">
+                    <form action="{{ route('cari.donor') }}" method="GET" id="searchForm">
                         @csrf
                         <div class="form-group">
                             <label for="goldar">Golongan Darah</label>
@@ -42,9 +42,11 @@
                         </div>
                         <div class="form-group">
                             <label for="jumlah">Jumlah Kantong Darah</label>
-                            <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah kantong darah">
+                            <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah kantong darah" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Cari Donor</button>
+                        <button type="button" class="btn btn-primary" onclick="getLocationAndSubmit()">Cari Donor</button>
+                        <input type="hidden" name="lat" id="lat" value="">
+                        <input type="hidden" name="long" id="long" value="">
                     </form>
                 </div>            
             </div>
@@ -63,6 +65,7 @@
                           <tr>
                             <th scope="col">#</th>
                             <th scope="col">Tanggal</th>
+                            <th scope="col">Pendonor</th>                            
                             <th scope="col">Golongan Darah</th>
                             <th scope="col">Jumlah</th>                            
                             <th scope="col">Status</th>                      
@@ -74,7 +77,9 @@
                                 @foreach ($history as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->create_at }}</td>
+                                        @php setlocale(LC_TIME, 'id_ID.utf8') @endphp
+                                        <td>{{ strftime("%A, %d %B %Y %H:%M", strtotime($item->created_at)) }}</td>    
+                                        <td>{{ $item->pendonor->profile->nama }}</td>                                    
                                         <td>{{ $item->goldar }} {{ $item->rhesus }}</td>
                                         <td>{{ $item->jumlah }}</td>
                                         <td>{{ $item->status }}</td>
@@ -94,5 +99,43 @@
         </div>
     </div>
 
+    <script>
+        function getLocationAndSubmit() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocation, handleError);
+            } else {
+                alert("Pakai Browser yang support lokasi.");
+            }
+        }
+
+        function sendLocation(position) {
+            let lat = position.coords.latitude;
+            let long = position.coords.longitude;
+
+            // Isi nilai lokasi ke input hidden pada form
+            document.getElementById('lat').value = lat;
+            document.getElementById('long').value = long;
+
+            // Submit form setelah mendapatkan lokasi
+            document.getElementById('searchForm').submit();
+        }
+
+        function handleError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("Anda telah memblokir izin untuk mendapatkan lokasi.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Informasi lokasi tidak tersedia.");
+                    break;
+                case error.TIMEOUT:
+                    alert("Permintaan lokasi melebihi waktu yang diizinkan.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Terjadi kesalahan tidak diketahui.");
+                    break;
+            }
+        }
+    </script>
     
 @endsection

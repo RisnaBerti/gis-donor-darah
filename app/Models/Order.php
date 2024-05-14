@@ -24,11 +24,11 @@ class Order extends Model
 
     public function pencari()
     {
-        return $this->belongsTo(User::class, 'pencari_id');
+        return $this->belongsTo(User::class, 'pencari_id', 'id');
     }
 
     public function pendonor()
     {
-        return $this->belongsTo(User::class, 'pendonor_id');
+        return $this->belongsTo(User::class, 'pendonor_id', 'id');
     }
 }
