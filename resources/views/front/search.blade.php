@@ -63,12 +63,12 @@
                     <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Pendonor</th>                            
-                            <th scope="col">Golongan Darah</th>
-                            <th scope="col">Jumlah</th>                            
-                            <th scope="col">Status</th>                      
+                            <th scope="col" width="5%">#</th>
+                            <th scope="col" width="20%">Tanggal</th>
+                            <th scope="col" width="20%">Pendonor</th>                            
+                            <th scope="col" width="15%">Golongan Darah</th>
+                            <th scope="col" width="15%">Jumlah</th>                            
+                            <th scope="col" width="25%">Status</th>                      
                           </tr>
                         </thead>
                         <tbody>
@@ -82,7 +82,17 @@
                                         <td>{{ $item->pendonor->profile->nama }}</td>                                    
                                         <td>{{ $item->goldar }} {{ $item->rhesus }}</td>
                                         <td>{{ $item->jumlah }}</td>
-                                        <td>{{ $item->status }}</td>
+                                        <td>
+                                            @if ($item->status === 'Pending')
+                                            <span class="badge bg-light text-info">Pending</span>        
+                                            @elseif (($item->status === 'Approved'))
+                                                <span class="badge bg-light text-success">Approved</span>
+                                                <br>
+                                                No Hp : {{ $item->pendonor->mobile }} <br>
+                                                Alamat : {{ $item->pendonor->profile->alamat }}
+                                            @else
+                                                <span class="badge bg-light text-danger">Rejected</span>
+                                            @endif</td>
                                     </tr>
                                 @endforeach                             
                             @else

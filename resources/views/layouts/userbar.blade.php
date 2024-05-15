@@ -18,12 +18,24 @@
             <span>{{ __('Home') }}</span></a>
     </li>
 
-        
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('cari') }}">
-            <i class="fas fa-hand-holding-water"></i>
-            <span>{{ __('Cari Donor Darah') }}</span></a>
-    </li>
+
+    @auth
+        @if(auth()->user()->hasRole('pencaridonor'))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('cari') }}">
+                    <i class="fas fa-hand-holding-water"></i>
+                    <span>{{ __('Cari Donor Darah') }}</span>
+                </a>
+            </li>
+        @elseif(auth()->user()->hasRole('pendonor'))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('permintaan.index') }}">
+                    <i class="fas fa-hand-holding-water"></i>
+                    <span>{{ __('Permintaan Donor') }}</span>
+                </a>
+            </li>
+        @endif
+    @endauth
 
     
     <li class="nav-item">

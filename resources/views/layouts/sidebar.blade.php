@@ -18,6 +18,18 @@
             <span>{{ __('Dashboard') }}</span></a>
     </li>
 
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('order.index') }}">
+            <i class="fas fa-search-location"></i>
+            <span>{{ __('Request') }}</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
     <li class="nav-item">
         <a class="nav-link" href="{{ route('pendonors.index') }}">
             <i class="fas fa-user-md"></i>

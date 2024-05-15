@@ -194,4 +194,18 @@ class OrderController extends Controller
     }
 
 
+    public function permintaan()
+    {
+        // Mendapatkan ID pengguna yang sedang login
+        $userId = Auth::id();
+    
+        // Mengambil data order dengan pendonor_id yang sesuai dengan ID pengguna yang sedang login
+        $requests = Order::with(['pencari', 'pendonor'])
+                        ->where('pendonor_id', $userId)
+                        ->where('status', 'Approved')
+                        ->get();
+    
+        return view('front.request_donor', compact('requests'));
+    }
+
 }

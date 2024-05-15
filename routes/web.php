@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     PendonorController,
     PencariController,
     StokDarahController,
+    SearchController,
 };
 
 use App\Http\Controllers\UserPanel\{
@@ -67,6 +68,11 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::delete('stokdarahs/{stokdarah}', [StokDarahController::class, 'destroy'])->name('stokdarah.destroy');
         Route::put('stokdarahs/{stokdarah}', [StokDarahController::class, 'updateStok'])->name('stokdarah.updatestok');
 
+        // Route Request Order Pencarian Donor
+        Route::get('order', [SearchController::class, 'index'])->name('order.index');
+        Route::post('/order/{id}/approved', [SearchController::class, 'approve'])->name('order.approve');
+        Route::post('/order/{id}/reject', [SearchController::class, 'reject'])->name('order.reject');
+
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -84,9 +90,16 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
     Route::get('/profile', [PanelController::class, 'profile'])->name('panel.profile');
 
-    Route::get('/cari', [OrderController::class, 'index'])->name('cari');
-    Route::get('/cari/donor', [OrderController::class, 'search'])->name('cari.donor');
-    Route::post('/request', [OrderController::class, 'order'])->name('store.order');
+    Route::middleware(['role:pencaridonor'])->group(function () {
+        Route::get('/cari', [OrderController::class, 'index'])->name('cari');
+        Route::get('/cari/donor', [OrderController::class, 'search'])->name('cari.donor');
+        Route::post('/request', [OrderController::class, 'order'])->name('store.order');
+    });
+
+    Route::middleware(['role:pendonor'])->group(function () {
+        Route::get('/permintaan-donor', [OrderController::class, 'permintaan'])->name('permintaan.index');
+    });
+    
 
 });
 
