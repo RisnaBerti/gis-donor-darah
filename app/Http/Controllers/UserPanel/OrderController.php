@@ -82,9 +82,12 @@ class OrderController extends Controller
         // Filter hanya pendonor yang memiliki jarak terhitung dan id-nya tersedia dan tidak null
         $sortedDonors = User::whereIn('id', $sortedDonorIds)->with('profile')->get()->filter(function ($donor) use ($distances) {
             return isset($distances[$donor->id]) && $donor->id; // Kondisi tambahan untuk memastikan id tidak null
-        })->map(function ($donor) use ($distances) {
+        })->map(function ($donor) use ($distances, $latnow, $longnow) {
             // Tambahkan nilai jarak ke profil pendonor
             $donor->distance = $distances[$donor->id];
+            $donor->latnow = $latnow;
+            $donor->longnow = $longnow;
+
             return $donor;
         })->sortBy('distance');
 
@@ -171,10 +174,55 @@ class OrderController extends Controller
 
     
     public function searchResult($donors)
-    {   
+    {
+        $markPendonor = [];
+        $latnow = null;
+        $longnow = null;
+    
+        foreach ($donors as $donor) {
+            $icon = '';
+    
+            // Tentukan ikon berdasarkan golongan darah
+            switch ($donor->profile->golongan_darah) {
+                case 'A':
+                    $icon = asset('img/a.png');
+                    break;
+                case 'B':
+                    $icon = asset('img/b.png');
+                    break;
+                case 'AB':
+                    $icon = asset('img/ab.png');
+                    break;
+                case 'O':
+                    $icon = asset('img/o.png');
+                    break;
+                default:
+                    $icon = asset('img/default.png'); // Ikon default jika golongan darah tidak dikenal
+                    break;
+            }
+    
+            $markPendonor[] = [
+                'position' => [
+                    'lat' => floatval($donor->profile->lat),
+                    'lng' => floatval($donor->profile->long),
+                ],
+                'label' => [],
+                'icon' => $icon,
+                'title' => $donor->profile->nama,
+                'draggable' => false,
+            ];
+    
+            // Ambil nilai longnow dan latnow dari donor pertama (asumsi semua donor memiliki nilai yang sama)
+            if ($latnow === null && $longnow === null) {
+                $latnow = $donor->latnow;
+                $longnow = $donor->longnow;
+            }
+        }
+    
         // Tampilkan halaman hasil pencarian dengan data donor yang sudah diurutkan
-        return view('front.order', compact('donors'));
+        return view('front.order', compact('donors', 'markPendonor', 'latnow', 'longnow'));
     }
+    
     
     public function order(Request $request)
     {

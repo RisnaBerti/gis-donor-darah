@@ -62,4 +62,4 @@
         </script>
 
 
-<script type = "text/javascript" src = "https://maps.google.com/maps/api/js?key={{ env('GMAPS_API_KEY') }}&callback=initMap" > </script>
+        <script type = "text/javascript" src = "https://maps.google.com/maps/api/js?key={{ env('GMAPS_API_KEY') }}&callback=initMap" > </script>
