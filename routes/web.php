@@ -88,6 +88,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     // User Routes
     Route::get('/home', [PanelController::class, 'index'])->name('home');
     Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
+    Route::post('/stok/request', [PanelController::class, 'requestStok'])->name('stok.request');
+
     Route::get('/profile', [PanelController::class, 'profile'])->name('panel.profile');
 
     Route::middleware(['role:pencaridonor'])->group(function () {

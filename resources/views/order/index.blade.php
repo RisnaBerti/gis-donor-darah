@@ -33,7 +33,7 @@
                             <th width="15%">Pencari</th>
                             <th width="12%">Golongan Darah</th>
                             <th width="15%">Jumlah</th>
-                            <th width="15%">Pendonor</th>
+                            <th width="15%">Sumber</th>
                             <th width="20%">Tanggal</th>
                             <th width="18%">Aksi</th>                          
                         </tr>
@@ -45,7 +45,13 @@
                                 <td><a href="{{ route('pencaris.show', ['user' => $order->pencari->id]) }}">{{$order->pencari->profile->nama}}</a></td>
                                 <td class="text-center">{{$order->goldar}} {{$order->rhesus}}</td>
                                 <td class="text-center">{{$order->jumlah}}</td>
-                                <td><a href="{{ route('pendonors.show', ['user' => $order->pendonor->id]) }}">{{$order->pendonor->profile->nama}}</a></td>
+                                <td>
+                                    @if ($order->pendonor)
+                                        <a href="{{ route('pendonors.show', ['user' => $order->pendonor->id]) }}">{{$order->pendonor->profile->nama}}</a>
+                                    @else
+                                        Stok Darah <br> {{ json_decode($order->keterangan)->kategori }}
+                                    @endif                                    
+                                </td>
                                 <td>{{ strftime("%A, %d %B %Y %H:%M", strtotime($order->created_at)) }}</td>
                                 <td class="text-center">
                                     @if ($order->status === 'Pending')

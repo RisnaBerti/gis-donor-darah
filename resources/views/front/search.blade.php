@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 @extends('layouts.admin')
 
 @section('main-content')
@@ -59,56 +63,107 @@
                     <h6 class="m-0 font-weight-bold text-primary">Histori Permintaan</h6>
                 </div>
                 <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr class="text-center">
+                                <th scope="col" width="5%">#</th>
+                                <th scope="col" width="20%">Tanggal</th>
+                                <th scope="col" width="20%">Pendonor</th>                            
+                                <th scope="col" width="15%">Golongan Darah</th>
+                                <th scope="col" width="15%">Jumlah</th>                            
+                                <th scope="col" width="25%">Status</th>                      
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                    <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th scope="col" width="5%">#</th>
-                            <th scope="col" width="20%">Tanggal</th>
-                            <th scope="col" width="20%">Pendonor</th>                            
-                            <th scope="col" width="15%">Golongan Darah</th>
-                            <th scope="col" width="15%">Jumlah</th>                            
-                            <th scope="col" width="25%">Status</th>                      
-                          </tr>
-                        </thead>
-                        <tbody>
+                                @if ($history->isNotEmpty())
+                                    @foreach ($history as $item)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            @php setlocale(LC_TIME, 'id_ID.utf8') @endphp
+                                            <td>{{ strftime("%A, %d %B %Y %H:%M", strtotime($item->created_at)) }}</td>    
+                                            <td>{{ $item->pendonor->profile->nama }}</td>                                    
+                                            <td class="text-center">{{ $item->goldar }} {{ $item->rhesus }}</td>
+                                            <td class="text-center">{{ $item->jumlah }}</td>
+                                            <td class="text-center">
+                                                @if ($item->status === 'Pending')
+                                                <span class="badge bg-light text-info">Pending</span>        
+                                                @elseif (($item->status === 'Approved'))
+                                                    <span class="badge bg-light text-success">Approved</span>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop{{ $loop->iteration }}">
+                                                        Lihat Detail
+                                                    </button>
+                                                @else
+                                                    <span class="badge bg-light text-danger">Rejected</span>
+                                                @endif</td>
+                                        </tr>
 
-                            @if ($history->isNotEmpty())
-                                @foreach ($history as $item)
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="staticBackdrop{{ $loop->iteration }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Riwayat Pendonor</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="p-1 py-2">   
+                                                        <div class="text-center mt-3">
+                                                            <h5 class="mt-2 mb-0">{{ $item->pendonor->profile->nama }}</h5>
+                                                            <span>{{ $item->pendonor->mobile }}</span>
+                                                            
+                                                            <div class="px-4 mt-1">
+                                                                <p>{{ $item->pendonor->profile->alamat }}</p>
+                                                                <p>{{ Carbon::parse($item->pendonor->profile->tanggallahir)->age }} Tahun</p>
+                                                            </div>                                                        
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <hr>
+
+                                                    <div class="row" id="heading"> 
+                                                        <div class="col-4 text-center">Tanggal Donor</div> 
+                                                        <div class="col-2 text-center">Donor Ke</div> 
+                                                        <div class="col-2 text-center">Berat Badan</div> 
+                                                        <div class="col-4 text-center">Keterangan</div> 
+                                                    </div> 
+                                                
+                                                    @foreach ($item->pendonor->riwayat as $riwayat)
+                                                        <div class="row"> 
+                                                            <div class="col-4 text-center">{{ strftime("%A, %d %B %Y", strtotime($riwayat->tanggal_donor)) }}</div> 
+                                                            <div class="col-2 text-center">{{ $riwayat->donor_ke }}</div> 
+                                                            <div class="col-2 text-center">{{ $riwayat->berat_badan }} KG</div> 
+                                                            <div class="col-4 text-center">{{ $riwayat->keterangan }}</div> 
+                                                        </div>                                           
+                                                    @endforeach
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>                                            
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                    @endforeach                             
+                                @else
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        @php setlocale(LC_TIME, 'id_ID.utf8') @endphp
-                                        <td>{{ strftime("%A, %d %B %Y %H:%M", strtotime($item->created_at)) }}</td>    
-                                        <td>{{ $item->pendonor->profile->nama }}</td>                                    
-                                        <td>{{ $item->goldar }} {{ $item->rhesus }}</td>
-                                        <td>{{ $item->jumlah }}</td>
-                                        <td>
-                                            @if ($item->status === 'Pending')
-                                            <span class="badge bg-light text-info">Pending</span>        
-                                            @elseif (($item->status === 'Approved'))
-                                                <span class="badge bg-light text-success">Approved</span>
-                                                <br>
-                                                No Hp : {{ $item->pendonor->mobile }} <br>
-                                                Alamat : {{ $item->pendonor->profile->alamat }}
-                                            @else
-                                                <span class="badge bg-light text-danger">Rejected</span>
-                                            @endif</td>
+                                        <td colspan="5" class="text-center">Tidak Ada Data</td>
                                     </tr>
-                                @endforeach                             
-                            @else
-                                <tr>
-                                    <td colspan="5" class="text-center">Tidak Ada Data</td>
-                                </tr>
-                            @endif
-                        
-                        </tbody>
-                      </table>
-
+                                @endif
+                            
+                            </tbody>
+                        </table>
+                    </div>   
                 </div>            
             </div>
         </div>
     </div>
 
+ 
     <script>
         function getLocationAndSubmit() {
             if (navigator.geolocation) {

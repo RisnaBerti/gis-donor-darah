@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\StokDarah;
 use App\Models\JenisDarah;
+use App\Models\Order;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -81,18 +82,56 @@ class PanelController extends Controller
         // Query untuk mengambil data stok darah sesuai dengan struktur yang telah disesuaikan sebelumnya
         $stoks = StokDarah::join('jenis_darah', 'stok_darah.jenis_id', '=', 'jenis_darah.id')
             ->selectRaw("jenis_darah.kategori AS jenis_produk")
-            ->selectRaw("SUM(CASE WHEN jenis_darah.goldar = 'A' THEN stok_darah.jumlah ELSE 0 END) AS A")
-            ->selectRaw("SUM(CASE WHEN jenis_darah.goldar = 'B' THEN stok_darah.jumlah ELSE 0 END) AS B")
-            ->selectRaw("SUM(CASE WHEN jenis_darah.goldar = 'O' THEN stok_darah.jumlah ELSE 0 END) AS O")
-            ->selectRaw("SUM(CASE WHEN jenis_darah.goldar = 'AB' THEN stok_darah.jumlah ELSE 0 END) AS AB")
+            ->selectRaw("JSON_OBJECT('jumlah', SUM(CASE WHEN jenis_darah.goldar = 'A' THEN stok_darah.jumlah ELSE 0 END), 'id', MAX(CASE WHEN jenis_darah.goldar = 'A' THEN stok_darah.id ELSE NULL END)) AS A")
+            ->selectRaw("JSON_OBJECT('jumlah', SUM(CASE WHEN jenis_darah.goldar = 'B' THEN stok_darah.jumlah ELSE 0 END), 'id', MAX(CASE WHEN jenis_darah.goldar = 'B' THEN stok_darah.id ELSE NULL END)) AS B")
+            ->selectRaw("JSON_OBJECT('jumlah', SUM(CASE WHEN jenis_darah.goldar = 'O' THEN stok_darah.jumlah ELSE 0 END), 'id', MAX(CASE WHEN jenis_darah.goldar = 'O' THEN stok_darah.id ELSE NULL END)) AS O")
+            ->selectRaw("JSON_OBJECT('jumlah', SUM(CASE WHEN jenis_darah.goldar = 'AB' THEN stok_darah.jumlah ELSE 0 END), 'id', MAX(CASE WHEN jenis_darah.goldar = 'AB' THEN stok_darah.id ELSE NULL END)) AS AB")
             ->selectRaw("SUM(stok_darah.jumlah) AS Subtotal")
             ->groupBy('jenis_darah.kategori')
             ->orderBy('jenis_darah.id')
             ->get();
 
-        // Mengirimkan data ke view 'front.stock'
-        return view('front.stock', compact('stoks'));
+            
+            
+        // Mendapatkan ID pengguna yang sedang login
+        $userId = Auth::id();
+    
+        $history = Order::with(['pencari'])->where('pencari_id', $userId)->where('sumber', 'Stok')->orderBy('created_at', 'DESC')->get();
+        
+        return view('front.stock', compact('stoks', 'history'));
     }
+
+    public function requestStok(Request $request)
+    {   
+        $userId = Auth::id();
+
+        $request->validate([
+            'stok_id' => 'required|integer|exists:stok_darah,id',
+            'jumlah' => 'required|integer|min:1|max:' . $request->input('jumlah')
+        ]);
+
+        $cekStok = StokDarah::with('jenisDarah')->where('id', $request->stok_id)->first();
+
+        $order = [
+            'pencari_id' => $userId,
+            'goldar' => $cekStok->jenisDarah->goldar,
+            'rhesus' => 'Positif',
+            'jumlah' => $request->jumlah,
+            'status' => 'Pending',
+            'sumber' => 'Stok',
+            'keterangan' => json_encode([
+                'kategori' => $cekStok->jenisDarah->kategori,
+                'stok_id' => $cekStok->id
+            ])
+        ];
+
+        // Simpan order ke database (sesuaikan dengan model dan tabel yang sesuai)
+        Order::create($order);
+
+        return redirect()->back()->with('success', 'Request stok darah berhasil dikirim.');
+    }
+
+    
 
     
     public function profile()

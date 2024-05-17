@@ -9,6 +9,7 @@ use App\Models\Profile;
 use App\Models\StokDarah;
 use App\Models\JenisDarah;
 use App\Models\Order;
+use App\Models\RiwayatDonor;
 
 use App\Helpers\Dijkstra;
 
@@ -33,10 +34,12 @@ class OrderController extends Controller
         $userId = Auth::id();
 
         // Mengambil data order dengan pencari_id yang sesuai dengan ID pengguna yang sedang login
-        $history = Order::with(['pencari', 'pendonor'])->where('pencari_id', $userId)->get();
+        $history = Order::with(['pencari', 'pendonor'])->where('pencari_id', $userId)->where('sumber', 'Pendonor')->orderBy('created_at', 'DESC')->get();
 
         return view('front.search', compact('history'));
     }
+
+
 
     public function search(Request $request)
     {   
@@ -203,6 +206,7 @@ class OrderController extends Controller
         $requests = Order::with(['pencari', 'pendonor'])
                         ->where('pendonor_id', $userId)
                         ->where('status', 'Approved')
+                        ->orderBy('created_at', 'DESC')
                         ->get();
     
         return view('front.request_donor', compact('requests'));
