@@ -21,11 +21,30 @@
         </div>
     @endif
 
+    @if (session('warning'))
+        <div class="alert alert-warning border-left-warning" role="alert">
+            {{ session('warning') }}
+        </div>
+    @endif
+  
+    @if ($errors->any())
+        <div class="alert alert-danger border-left-danger alert-dismissible fade show" role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-xl-12 col-md-12 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">                
                 <div class="card-body">
-                    <form method="POST" action="{{ route('profile.update') }}" autocomplete="off">
+                    <form method="POST" action="{{ route('panel.updateProfile') }}" autocomplete="off">
                         @csrf
                         @method('PUT')
 
@@ -36,7 +55,7 @@
                                 <div class="pl-lg-4">
                                     <div class="form-group">
                                         <label class="form-control-label" for="nama">Nama<span class="small text-danger">*</span></label>
-                                        <input type="text" id="nama" class="form-control" name="nama" placeholder="Nama" value="{{ old('nama', $profile->nama ?? '') }}">
+                                        <input type="text" id="nama" class="form-control" name="nama" placeholder="Nama" value="{{ old('nama', $profile->nama ?? '') }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -45,12 +64,12 @@
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="tempatlahir">Tempat Lahir</label>
-                                        <input type="text" id="tempatlahir" class="form-control" name="tempatlahir" placeholder="Tempat Lahir" value="{{ old('tempatlahir', $profile->tempatlahir ?? '') }}">
+                                        <input type="text" id="tempatlahir" class="form-control" name="tempatlahir" placeholder="Tempat Lahir" value="{{ old('tempatlahir', $profile->tempatlahir ?? '') }}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="tanggallahir">Tanggal Lahir</label>
-                                        <input type="date" id="tanggallahir" class="form-control" name="tanggallahir" value="{{ old('tanggallahir', $profile->tanggallahir ?? '') }}">
+                                        <input type="date" id="tanggallahir" class="form-control" name="tanggallahir" value="{{ old('tanggallahir', $profile->tanggallahir ?? '') }}" required>
                                     </div>
 
                                     <div class="form-group">
@@ -81,7 +100,7 @@
                                     
                                     <div class="form-group">
                                         <label class="form-control-label" for="pekerjaan">Pekerjaan</label>
-                                        <input type="text" id="pekerjaan" class="form-control" name="pekerjaan" placeholder="Pekerjaan" value="{{ old('pekerjaan', $profile->pekerjaan ?? '') }}">
+                                        <input type="text" id="pekerjaan" class="form-control" name="pekerjaan" placeholder="Pekerjaan" value="{{ old('pekerjaan', $profile->pekerjaan ?? '') }}" required>
                                     </div>
                                     
                                   
@@ -91,31 +110,31 @@
                                 <div class="pl-lg-4">                                    
                                     <div class="form-group">
                                         <label class="form-control-label" for="alamat">Alamat</label>
-                                        <input type="text" id="alamat" class="form-control" name="alamat" placeholder="Alamat" value="{{ old('alamat', $profile->alamat ?? '') }}">
+                                        <input type="text" id="alamat" class="form-control" name="alamat" placeholder="Alamat" value="{{ old('alamat', $profile->alamat ?? '') }}" required>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-control-label" for="desa">Desa</label>
-                                        <input type="text" id="desa" class="form-control" name="desa" placeholder="Desa" value="{{ old('desa', $profile->desa ?? '') }}">
+                                        <input type="text" id="desa" class="form-control" name="desa" placeholder="Desa" value="{{ old('desa', $profile->desa ?? '') }}" required>
                                     </div>
                                     
                                     <div class="form-group">
                                         <label class="form-control-label" for="kecamatan">Kecamatan</label>
-                                        <input type="text" id="kecamatan" class="form-control" name="kecamatan" placeholder="Kecamatan" value="{{ old('kecamatan', $profile->kecamatan ?? '') }}">
+                                        <input type="text" id="kecamatan" class="form-control" name="kecamatan" placeholder="Kecamatan" value="{{ old('kecamatan', $profile->kecamatan ?? '') }}" required>
                                     </div>
                                     
                                     <div class="form-group">
                                         <label class="form-control-label" for="kabupaten">Kabupaten</label>
-                                        <input type="text" id="kabupaten" class="form-control" name="kabupaten" placeholder="Kabupaten" value="{{ old('kabupaten', $profile->kabupaten ?? '') }}">
+                                        <input type="text" id="kabupaten" class="form-control" name="kabupaten" placeholder="Kabupaten" value="{{ old('kabupaten', $profile->kabupaten ?? '') }}" required>
                                     </div>
                                     
                                     <div class="form-group">
                                         <label class="form-control-label" for="provinsi">Provinsi</label>
-                                        <input type="text" id="provinsi" class="form-control" name="provinsi" placeholder="Provinsi" value="{{ old('provinsi', $profile->provinsi ?? '') }}">
+                                        <input type="text" id="provinsi" class="form-control" name="provinsi" placeholder="Provinsi" value="{{ old('provinsi', $profile->provinsi ?? '') }}" required>
                                     </div>
                                     
                                     <div class="form-group">
                                         <label class="form-control-label" for="kodepos">Kode Pos</label>
-                                        <input type="text" id="kodepos" class="form-control" name="kodepos" placeholder="Kode Pos" value="{{ old('kodepos', $profile->kodepos ?? '') }}">
+                                        <input type="text" id="kodepos" class="form-control" name="kodepos" placeholder="Kode Pos" value="{{ old('kodepos', $profile->kodepos ?? '') }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -123,8 +142,8 @@
               
                                 @include('form.maps')
             
-                                <input type="hidden" id="hidden-lat" name="lat" value="{{ old('lat', $user->profile->lat ?? '') }}">
-                                <input type="hidden" id="hidden-long" name="long" value="{{ old('long', $user->profile->long ?? '') }}">
+                                <input type="hidden" id="hidden-lat" name="lat" value="{{ old('lat', $user->profile->lat ?? '') }}" required>
+                                <input type="hidden" id="hidden-long" name="long" value="{{ old('long', $user->profile->long ?? '') }}" required>
                               </div>
                         </div>
                           <!-- Button -->

@@ -30,9 +30,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware(['auth', 'web'])->group(function () {
-    //Admin routes
-    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+    //Admin Route 
+    Route::middleware(['auth', 'role:admin', 'web'])->prefix('admin')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
@@ -85,23 +84,26 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::delete('roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
     });
 
-    // User Routes
-    Route::get('/home', [PanelController::class, 'index'])->name('home');
-    Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
-    Route::post('/stok/request', [PanelController::class, 'requestStok'])->name('stok.request');
+    //User Route
+    Route::middleware(['auth', 'web'])->group(function () {
+       
+        Route::get('/profile', [PanelController::class, 'profile'])->name('panel.profile');
+        Route::put('/profile', [PanelController::class, 'updateProfile'])->name('panel.updateProfile');
 
-    Route::get('/profile', [PanelController::class, 'profile'])->name('panel.profile');
+            Route::middleware('complete.profile')->group(function () {
+        
+                Route::get('/home', [PanelController::class, 'index'])->name('home');
+                Route::get('/stokdarah', [PanelController::class, 'stokDarah'])->name('stokdarah');
+                Route::post('/stok/request', [PanelController::class, 'requestStok'])->name('stok.request');
 
-    Route::middleware(['role:pencaridonor'])->group(function () {
-        Route::get('/cari', [OrderController::class, 'index'])->name('cari');
-        Route::get('/cari/donor', [OrderController::class, 'search'])->name('cari.donor');
-        Route::post('/request', [OrderController::class, 'order'])->name('store.order');
+                Route::middleware(['role:pencaridonor'])->group(function () {
+                    Route::get('/cari', [OrderController::class, 'index'])->name('cari');
+                    Route::get('/cari/donor', [OrderController::class, 'search'])->name('cari.donor');
+                    Route::post('/request', [OrderController::class, 'order'])->name('store.order');
+                });
+
+                Route::middleware(['role:pendonor'])->group(function () {
+                    Route::get('/permintaan-donor', [OrderController::class, 'permintaan'])->name('permintaan.index');
+                });
+            });
     });
-
-    Route::middleware(['role:pendonor'])->group(function () {
-        Route::get('/permintaan-donor', [OrderController::class, 'permintaan'])->name('permintaan.index');
-    });
-    
-
-});
-

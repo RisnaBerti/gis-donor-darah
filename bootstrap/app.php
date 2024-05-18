@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'complete.profile' => \App\Http\Middleware\CompleteProfileMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

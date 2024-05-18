@@ -142,5 +142,45 @@ class PanelController extends Controller
         return view('front.profile', compact('user', 'profile'));
     }
 
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $profile = $user->profile;
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'tempatlahir' => 'required|string|max:255',
+            'tanggallahir' => 'required|date',
+            'jeniskelamin' => 'required|in:Laki-laki,Perempuan',
+            'alamat' => 'required|string|max:255',
+            'desa' => 'required|string|max:255', // Tambahkan validasi untuk desa dan kolom lainnya
+            'kecamatan' => 'required|string|max:255',
+            'kabupaten' => 'required|string|max:255',
+            'provinsi' => 'required|string|max:255',
+            'kodepos' => 'required|string|max:10',
+            'lat' => 'required|string|max:20',
+            'long' => 'required|string|max:20',
+            'golongan_darah' => 'required|in:A,B,AB,O',
+            'rhesus' => 'required|in:+,-',
+            'pekerjaan' => 'required|string|max:255',           
+        ]);
+
+        // Pastikan $profile tidak null sebelum memanggil fill()
+        if (!$profile) {
+            $profile = new Profile(); // Buat objek baru jika tidak ada profil sebelumnya
+            $profile->user_id = $user->id; // Set user_id sesuai dengan pengguna yang sedang login
+        }
+    
+        $profile->fill($request->only([
+            'nama', 'tempatlahir', 'tanggallahir', 'jeniskelamin',
+            'alamat', 'desa', 'kecamatan', 'kabupaten', 'provinsi', 'kodepos',
+            'lat', 'long', 'golongan_darah', 'rhesus', 'pekerjaan'
+        ]));
+
+        $profile->save();
+
+        return redirect()->route('panel.profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
 
 }

@@ -47,6 +47,25 @@ class User extends Authenticatable
         ];
     }
 
+    public function profileIsComplete()
+    {
+        return !empty($this->profile->tempatlahir) &&
+            !empty($this->profile->tanggallahir) &&
+            !empty($this->profile->jeniskelamin) &&
+            !empty($this->profile->alamat) &&
+            !empty($this->profile->desa) &&
+            !empty($this->profile->kecamatan) &&
+            !empty($this->profile->kabupaten) &&
+            !empty($this->profile->provinsi) &&
+            !empty($this->profile->kodepos) &&
+            !empty($this->profile->lat) &&
+            !empty($this->profile->long) &&
+            !empty($this->profile->golongan_darah) &&
+            !empty($this->profile->rhesus) &&
+            !empty($this->profile->pekerjaan);
+    }
+
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
