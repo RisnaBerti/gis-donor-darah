@@ -82,10 +82,22 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Konfirmasi Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Sebagai') }}</label>
+
+                            <div class="col-md-6">
+                                <input type="radio" class="btn-check" name="role" id="Pencari" value="pencaridonor" autocomplete="off" required>
+                                <label class="btn btn-outline-primary" for="Pencari">Pencari Donor</label>
+
+                                <input type="radio" class="btn-check" name="role" id="Pendonor" value="pendonor" autocomplete="off" required>
+                                <label class="btn btn-outline-primary" for="Pendonor">Pendonor</label>
                             </div>
                         </div>
 

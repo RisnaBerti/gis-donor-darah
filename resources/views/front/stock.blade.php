@@ -1,3 +1,7 @@
+@php
+use Carbon\Carbon;
+@endphp
+
 @extends('layouts.admin')
 
 @section('main-content')
@@ -122,7 +126,7 @@
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             @php setlocale(LC_TIME, 'id_ID.utf8') @endphp
-                                            <td>{{ strftime("%A, %d %B %Y %H:%M", strtotime($item->created_at)) }}</td>                                                                       
+                                            <td>{{ Carbon::parse($item->created_at)->translatedFormat('l, d F Y  H:i') }} WIB</td>                                                                       
                                             <td class="text-center">{{ $item->goldar }} {{ $item->rhesus }}</td>
                                             <td class="text-center">{{ $item->jumlah }}</td>
                                             <td class="text-center">{{ json_decode($item->keterangan)->kategori }}</td>

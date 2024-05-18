@@ -1,5 +1,5 @@
 @php
-    use Carbon\Carbon;
+use Carbon\Carbon;
 @endphp
 
 @extends('layouts.admin')
@@ -8,7 +8,6 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">{{ __('Cari Pendonor Darah') }}</h1>
-
 
     @if (session('success'))
     <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -48,7 +47,7 @@
                             <label for="jumlah">Jumlah Kantong Darah</label>
                             <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah kantong darah" required>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="getLocationAndSubmit()">Cari Donor</button>
+                        <button type="button" class="btn btn-primary" onclick="validateFormAndSubmit()">Cari Donor</button>
                         <input type="hidden" name="lat" id="lat" value="">
                         <input type="hidden" name="long" id="long" value="">
                     </form>
@@ -82,7 +81,7 @@
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             @php setlocale(LC_TIME, 'id_ID.utf8') @endphp
-                                            <td>{{ strftime("%A, %d %B %Y %H:%M", strtotime($item->created_at)) }}</td>    
+                                            <td>{{ Carbon::parse($item->created_at)->translatedFormat('l, d F Y  H:i') }} WIB</td>    
                                             <td>{{ $item->pendonor->profile->nama }}</td>                                    
                                             <td class="text-center">{{ $item->goldar }} {{ $item->rhesus }}</td>
                                             <td class="text-center">{{ $item->jumlah }}</td>
@@ -104,7 +103,7 @@
                                             <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h5 class="modal-title" id="staticBackdropLabel">Riwayat Pendonor</h5>
+                                                <h5 class="modal-title" id="staticBackdropLabel">Riwayat Donor Darah</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -133,7 +132,7 @@
                                                 
                                                     @foreach ($item->pendonor->riwayat as $riwayat)
                                                         <div class="row"> 
-                                                            <div class="col-4 text-center">{{ strftime("%A, %d %B %Y", strtotime($riwayat->tanggal_donor)) }}</div> 
+                                                            <div class="col-4 text-center">{{ Carbon::parse($riwayat->tanggal_donor)->translatedFormat('l, d F Y  H:i') }} WIB</div> 
                                                             <div class="col-2 text-center">{{ $riwayat->donor_ke }}</div> 
                                                             <div class="col-2 text-center">{{ $riwayat->berat_badan }} KG</div> 
                                                             <div class="col-4 text-center">{{ $riwayat->keterangan }}</div> 
@@ -165,6 +164,20 @@
 
  
     <script>
+        function validateFormAndSubmit() {
+            // Get the jumlah input value
+            var jumlah = document.getElementById('jumlah').value;
+
+            // Check if jumlah is filled
+            if (!jumlah) {
+                alert("Jumlah kantong darah harus diisi.");
+                return;
+            }
+
+            // Get location and submit the form if jumlah is filled
+            getLocationAndSubmit();
+        }
+
         function getLocationAndSubmit() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendLocation, handleError);

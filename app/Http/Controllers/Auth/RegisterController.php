@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+
 
 class RegisterController extends Controller
 {
@@ -49,9 +52,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'nik' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'mobile' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'role' => ['required', 'string', 'in:pencaridonor,pendonor'],
         ]);
     }
 
@@ -63,10 +69,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user = User::create([
+            'nik' => $data['nik'],            
             'email' => $data['email'],
+            'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->assignRole($data['role']);
+
+        // If you have a Profile model and a one-to-one relationship
+        Profile::create([
+            'user_id' => $user->id,
+            'nama' => $data['name'],
+        ]);
+
+        return $user;
     }
 }

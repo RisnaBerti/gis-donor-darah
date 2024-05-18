@@ -1,3 +1,7 @@
+@php
+use Carbon\Carbon;
+@endphp
+
 @extends('layouts.admin')
 
 @section('main-content')
@@ -48,17 +52,25 @@
                         <table class="table">
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Nama</th>
-                                <th>Jarak</th>
-                                <th>Alamat</th>
-                                <th>Status</th>
+                                <th width="20%">Nama</th>
+                                <th width="10%">Jarak</th>
+                                <th width="30%">Alamat</th>
+                                <th width="20%">Donor Terakhir</th>
+                                <th width="15%">Status</th>
                             </tr>
-                            @foreach($donors as $donor)
+                           
+                            @foreach($donors as $donor)                            
                              <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $donor->profile->nama }}</td>
                                 <td>{{ number_format($donor->distance, 2, ',', ' ') }} KM</td>
                                 <td>{{ $donor->profile->alamat }}</td>
+                                <td>
+                                    @if ($latestDonor = $donor->riwayat->sortByDesc('tanggal_donor')->first())
+                                        {{ Carbon::parse($latestDonor->tanggal_donor)->translatedFormat('l, d F Y') }} 
+                                    @else
+                                        Belum Pernah Donor
+                                    @endif
                                 <td>
                                     <div class="radio-tile-group">  
                                     
