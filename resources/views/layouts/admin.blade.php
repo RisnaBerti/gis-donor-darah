@@ -2,13 +2,13 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
     
-    <!-- Sidebar -->
+    {{-- <!-- Sidebar -->
     @if(auth()->check() && auth()->user()->hasRole('admin'))
         @include('layouts.sidebar')
     @else
         @include('layouts.userbar')
     @endif
-    <!-- End of Sidebar -->
+    <!-- End of Sidebar --> --}}
 
 
     <!-- End of Sidebar -->
@@ -24,7 +24,7 @@
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
-            <div class="container-fluid">
+            <div class="container-fluid w-75">
 
                 @yield('main-content')
 

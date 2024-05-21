@@ -29,15 +29,15 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Golongan Darah</th>
-                            <th>Kategori</th>
-                            <th>Masa Kadaluarsa</th>  
-                            <th>Suhu Simpan</th>       
-                            <th>Keterangan</th>
-                            <th colspan="2">Jumlah</th>
-                            <th>Aksi</th>
+                        <tr class="text-center">
+                            <th width="5%">No</th>
+                            <th width="8%">Golongan Darah</th>
+                            <th width="23%">Kategori</th>
+                            <th width="7%">Masa Kadaluarsa</th>  
+                            <th width="7%">Suhu Simpan</th>       
+                            <th width="30%">Keterangan</th>
+                            <th colspan="2" width="10%">Jumlah</th>
+                            <th width="10%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

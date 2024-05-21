@@ -57,3 +57,12 @@
       }
     }
   }
+
+  .navbar {
+    padding: .5rem 10rem;
+}
+
+.bg-theme {
+  --bs-bg-opacity: 1;
+  background-color: #ce0000;
+}
