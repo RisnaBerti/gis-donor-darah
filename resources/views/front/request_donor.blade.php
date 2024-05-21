@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('main-content')
 
@@ -20,7 +20,7 @@
                           <tr>
                             <th scope="col" width="5%">#</th>
                             <th scope="col" width="20%">Tanggal</th>
-                            <th scope="col" width="20%">Pendonor</th>                            
+                            <th scope="col" width="20%">@if(auth()->user()->hasRole('pencaridonor')) Pendonor @else Pencari Donor @endif</th>                            
                             <th scope="col" width="15%">Golongan Darah</th>
                             <th scope="col" width="15%">Jumlah</th>                            
                             <th scope="col" width="25%">Status</th>                      

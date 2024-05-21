@@ -2,7 +2,7 @@
 use Carbon\Carbon;
 @endphp
 
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('main-content')
 

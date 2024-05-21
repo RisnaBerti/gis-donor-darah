@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('main-content')
 
@@ -30,7 +30,7 @@
 
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">A<img src="{{ asset('img/a.png') }}" alt=""> B<img src="{{ asset('img/b.png') }}" alt=""> AB<img src="{{ asset('img/ab.png') }}" alt="">  O<img src="{{ asset('img/o.png') }}" alt=""></li>
+                    <li class="list-group-item">A<img src="{{ asset('img/a.png') }}" class="icon-type" alt=""> B<img src="{{ asset('img/b.png') }}" alt=""> AB<img src="{{ asset('img/ab.png') }}" alt="">  O<img src="{{ asset('img/o.png') }}" alt=""></li>
                   </ul>
             </div>
         </div>
